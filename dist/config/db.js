@@ -1,0 +1,25 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const dns_1 = __importDefault(require("dns"));
+const mongoose_1 = __importDefault(require("mongoose"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
+dns_1.default.setServers(["8.8.8.8", "1.1.1.1"]);
+const connectDB = async () => {
+    if (!process.env.MONGO_URI) {
+        console.log("⚠️ MONGO_URI not set, skipping MongoDB connection");
+        return;
+    }
+    try {
+        await mongoose_1.default.connect(process.env.MONGO_URI);
+        console.log("✅ MongoDB Connected Successfully");
+    }
+    catch (error) {
+        console.error("❌ MongoDB Connection Failed:", error);
+    }
+};
+exports.default = connectDB;
+//# sourceMappingURL=db.js.map
